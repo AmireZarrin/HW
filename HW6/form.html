@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .modal {
+        display: none;
+      position: fixed;
+      top: 200px;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px;
+      background-color: rgb(125, 113, 145);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    
+      border-radius: 5px;
+      height: 150px;
+      width: 500px;
+    }
+
+    .modal-circle {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: white;
+      margin: 0 10px;
+      cursor: pointer;
+    }
+
+    #circle1 {
+      background-color: blue;
+    }
+
+    #circle2 {
+      background-color: white;
+    }
+
+    #circle3 {
+      background-color: white;
+    }
+  </style>
+</head>
+<body>
+
+<div id="myModal1" class="modal">
+  <h2>step1</h2>
+  <input type="text" id="firstName" placeholder="Name">
+  <br>
+  <input type="text" id="lastName" placeholder="familiname">
+  <br>
+  <button onclick="nextModal(1)">next</button>
+</div>
+
+<div id="myModal2" class="modal">
+  <h2>step2 </h2>
+  <input type="text" id="age" placeholder="age">
+  <br>
+  
+  <button onclick="nextModal(2)">next</button>
+</div>
+
+<div id="myModal3" class="modal">
+  <h2>step 3</h2>
+  <input type="text" id="city" placeholder="city name">
+  <br>
+
+</div>
+
+<div id="circle1" class="modal-circle" onclick="changeModal(1)"></div>
+<div id="circle2" class="modal-circle" onclick="changeModal(2)"></div>
+<div id="circle3" class="modal-circle" onclick="changeModal(3)"></div>
+
+<script>
+  var currentModal = 1;
+
+  function openModal() {
+    var modal = document.getElementById('myModal1');
+    modal.style.display = 'block';
+    updateCircle(currentModal);
+  }
+
+  function nextModal(step) {
+    var current = document.getElementById('myModal' + step);
+    var next = document.getElementById('myModal' + (step + 1));
+    current.style.display = 'none';
+    next.style.display = 'block';
+    currentModal += 1;
+    updateCircle(currentModal);
+  }
+
+  function changeModal(step) {
+    var current = document.getElementById('myModal' + currentModal);
+    var target = document.getElementById('myModal' + step);
+    current.style.display = 'none';
+    target.style.display = 'block';
+    currentModal = step;
+    updateCircle(currentModal);
+  }
+
+  function updateCircle(step) {
+    for (var i = 1; i <= 3; i++) {
+      var circle = document.getElementById('circle' + i);
+      if (i === step) {
+        circle.style.backgroundColor = 'blue';
+      } else {
+        circle.style.backgroundColor = '#ccc';
+      }
+    }
+  }
+
+  openModal(); 
+</script>
+
+</body>
+</html>

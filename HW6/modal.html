@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+   
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 200px;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px;
+      background-color: rgb(125, 113, 145);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    
+      border-radius: 5px;
+      height: 50px;
+      width: 300px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<button onclick="openModal()">show</button>
+
+<div id="myModal" class="modal">
+  <span class="close-btn" onclick="closeModal()">x</span>
+
+ enter your name <input>
+</div>
+
+<script>
+  function openModal() {
+    var modal = document.getElementById('myModal');
+    modal.style.display = 'block';
+  }
+
+  function closeModal() {
+    var modal = document.getElementById('myModal');
+    modal.style.display = 'none';
+  }
+
+</script>
+
+</body>
+</html>
