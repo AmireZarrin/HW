@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chronometer</title>
+</head>
+<body>
+
+<div>
+  <p id="timer">00:00:00</p>
+  <button onclick="startTimer()">Start</button>
+  <button onclick="stopTimer()">Stop</button>
+  <button onclick="resetTimer()">Reset</button>
+</div>
+
+<script>
+let timerInterval;
+let seconds = 0;
+let minutes = 0;
+let hours = 0;
+
+function startTimer() {
+  if (!timerInterval) {
+    timerInterval = setInterval(updateTimer, 1000);
+  }
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
+  timerInterval = null;
+}
+
+function resetTimer() {
+  stopTimer();
+  seconds = 0;
+  minutes = 0;
+  hours = 0;
+  updateTimerDisplay();
+}
+
+function updateTimer() {
+  seconds++;
+  if (seconds === 60) {
+    seconds = 0;
+    minutes++;
+    if (minutes === 60) {
+      minutes = 0;
+      hours++;
+    }
+  }
+  updateTimerDisplay();
+}
+
+function updateTimerDisplay() {
+  const formattedTime = pad(hours) + ':' + pad(minutes) + ':' + pad(seconds);
+  document.getElementById('timer').innerText = formattedTime;
+}
+
+function pad(value) {
+  return value < 10 ? '0' + value : value;
+}
+</script>
+
+</body>
+</html>
