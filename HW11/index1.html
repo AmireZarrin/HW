@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Catalog</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      margin: 20px;
+    }
+
+    #box {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .item {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 10px;
+      text-align: center;
+      display: inline-block;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      transform-style: preserve-3d;
+    }
+
+    .item:hover {
+      transform: scale(1.05) rotateY(5deg) translateZ(10px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+      color: #333;
+      font-size: 1.2em;
+      margin-bottom: 10px;
+    }
+
+    span {
+      display: block;
+      margin-bottom: 8px;
+      color: #888;
+    }
+
+    button {
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      margin: 5px;
+      padding: 8px;
+      background-color: #4caf50;
+      color: #fff;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    li:last-child {
+      background-color: #333;
+      font-weight: bold;
+    }
+
+    input {
+      padding: 8px;
+      margin: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <input type="text" id="min" onkeyup="updateBox()" placeholder="Min Price" />
+  <input type="text" id="max" onkeyup="updateBox()" placeholder="Max Price" />
+  <div id="box"></div>
+  <ul id="cart"></ul>
+
+  <script>
+    let cart = [];
+    let products = [
+      { id: 125, title: "product1", color: "red", price: 25000 },
+      { id: 241, title: "product2", color: "blue", price: 75000 },
+      { id: 112, title: "product3", color: "green", price: 10000 },
+      { id: 98, title: "product4", color: "red", price: 120000 },
+    ];
+
+    function fillBox(filterProducts) {
+      let parent = document.getElementById("box");
+      parent.innerHTML = "";
+      for (let i = 0; i < filterProducts.length; i++) {
+        parent.innerHTML += `
+          <div class="item">
+            <span>${filterProducts[i].id}</span>
+            <h2>${filterProducts[i].title}</h2>
+            <span>${filterProducts[i].color}</span>
+            <br>
+            <span>${filterProducts[i].price}</span>
+            <br>
+            <button onclick="addToCart(${filterProducts[i].id})">add</button>
+            <span data-count-id="${filterProducts[i].id}">0</span>
+            <button onclick="minusFromCart(${filterProducts[i].id})">minus</button>
+          </div>`;
+      }
+    }
+
+    fillBox(products);
+
+    function updateBox() {
+      let minP = Number(document.getElementById("min").value);
+      let maxP = Number(document.getElementById("max").value);
+      let pf = products.filter(function (item) {
+        if (minP == 0 && maxP == 0) return true;
+        else if (minP == 0 && maxP != 0) return item.price < maxP;
+        else if (maxP == 0 && minP != 0) return item.price > minP;
+        else return item.price < maxP && item.price > minP;
+      });
+
+      fillBox(pf);
+    }
+
+    function addToCart(id) {
+      let productIndex = products.findIndex(function (item) {
+        return item.id == id;
+      });
+
+      let cartIndex = cart.findIndex(function (item) {
+        return item.product_id == id;
+      });
+      if (cartIndex == -1) {
+        cart.push({
+          count: 1,
+          product_title: products[productIndex].title,
+          product_id: products[productIndex].id,
+          product_price: products[productIndex].price,
+        });
+        document.querySelector(`[data-count-id="${id}"]`).innerHTML = 1;
+      } else {
+        cart[cartIndex].count += 1;
+        document.querySelector(`[data-count-id="${id}"]`).innerHTML =
+          cart[cartIndex].count;
+      }
+
+      updateCart();
+    }
+
+    function minusFromCart(id) {
+      let cartIndex = cart.findIndex(function (item) {
+        return item.product_id == id;
+      });
+      if (cartIndex == -1) {
+        alert("This product does not exist in the cart.");
+      } else { 
+        if (cart[cartIndex].count > 1) {
+          cart[cartIndex].count -= 1;
+          document.querySelector(`[data-count-id="${id}"]`).innerHTML =
+            cart[cartIndex].count;
+        } else if (cart[cartIndex].count == 1) {
+          cart.splice(cartIndex, 1);
+          document.querySelector(`[data-count-id="${id}"]`).innerHTML = 0;
+        }
+      }
+      updateCart();
+    }
+
+    function updateCart() {
+      document.getElementById("cart").innerHTML = "";
+      let totalPrice = 0;
+      cart.forEach((item) => {
+        document.getElementById("cart").innerHTML += `<li>${
+          item.product_title
+        } -- ${item.count} -- ${item.product_price} -->${
+          item.product_price * item.count
+        } </li>`;
+        totalPrice += item.product_price * item.count;
+      });
+      document.getElementById(
+        "cart"
+      ).innerHTML += `<li>Total Price: ${totalPrice}</li>`;
+    }
+  </script>
+</body>
+</html>
