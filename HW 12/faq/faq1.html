@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+        }
+
+        .faq-container {
+            width: 300px;
+            margin: auto;
+        }
+
+        .faq-item {
+            margin-bottom: 15px;
+        }
+
+        .question {
+            cursor: pointer;
+            font-weight: bold;
+            background-color: #b110ba;
+            padding: 10px;
+            border: 5px solid #580150;
+            border-radius: 10px;
+            transition: background-color 0.3s;
+            text-align: center;
+            width: 800px;
+            transform: translate(-35%);
+        }
+
+        .answer {
+            display: none;
+            padding: 10px;
+            border: 3px solid #580150;
+            border-radius: 3px;
+            background-color: #580150;
+            text-align: center;
+            width: 800px;
+            transform: translate(-35%);
+        }   
+    </style>
+</head>
+<body>
+
+    <div class="faq-container">
+        <div class="faq-item">
+            <div class="question">first Q</div>
+            <div class="answer">answer</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="question">second Q</div>
+            <div class="answer">answer</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="question">third Q</div>
+            <div class="answer">answer</div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            $(".question").click(function(){
+               
+                $(".answer").not($(this).next(".answer")).slideUp();
+              
+                $(this).next(".answer").slideToggle();
+            });
+        });
+    </script>
+</body>
+</html>
