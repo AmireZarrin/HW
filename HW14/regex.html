@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        body{
+            text-align: center;
+            margin: 50px;
+            background-color: #0a4f66;
+        }
+
+        .in{
+            background-color: rgb(139, 139, 139);
+            border-radius: 10px;
+            width: 500px;
+            height: 20px;
+        }
+
+        .bt{
+            background-color: #084919;
+            
+            border-radius: 10px;
+            width: 65px;
+            height: 25px;
+            border-color: rgb(43, 146, 231);
+            border-style:groove;
+            border-
+        }
+    </style>
+</head>
+
+<div>
+    <input class="in" type="text" data-regex="name" placeholder="enter your name"> <button class="bt">submit</button> 
+    <!-- <p>wrong</p> -->
+    
+    
+
+</div>
+<body>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    
+        <script>
+            $("input[data-regex]").keyup(function(){
+
+                let regType = $(this).attr("data-regex")
+                console.log(regType)
+
+                    let regex='null';
+                        if(regType == 'name')
+                            regex=/^[a-zA-Z ]+$/
+
+
+
+                    let inputval=$(this).val();
+
+                        if (regex.test(inputval)){
+                            $(this).next().show().css("backgroun-color","red");
+                        }else{
+                            $(this).next().hide();
+                        }
+
+                          <!-- console.log(regex.test(inputval)) -->
+
+            })
+
+
+        </script>
+</body>
+</html>
